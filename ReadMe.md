@@ -1,4 +1,4 @@
-A .NET wrapper for [tesseract-ocr] 4.1.1.
+A .NET wrapper for [tesseract-ocr] 5.2.0.
 
 ## Dependencies
 
@@ -9,9 +9,11 @@ Since tesseract and leptonica binaries are compiled with Visual Studio 2019 you'
 
 ### Tesseract language data
 
-You will also need to download the language data files for tesseract 4.1.0 from [tesseract-ocr].
+You will also need to download the language data files for tesseract 4.0.0 or above from [tesseract-tessdata].
 
-## [Docs](./docs/ReadMe.md)
+## Docs
+
+See [./docs/ReadMe.md](./docs/ReadMe.md)
 
 ## Getting started quickly
 
@@ -24,13 +26,19 @@ You will also need to download the language data files for tesseract 4.1.0 from 
 
 If you run into any issues please check out [this](https://github.com/charlesw/tesseract/wiki/Errors) wiki page which details a number common issues and some potential solutions.
 
+## Support
+
+Please only file issues for bugs. 
+
+If you have any questions or feature/improvement ideas please ask them on our [forum](https://github.com/charlesw/tesseract/discussions).
+
 ## Note for contributors
 
-Please create your pull requests to target the "develop" branch. "Master" is only for released code. Thank you.
+Please create your pull requests to target the "Master" branch.
 
 ## License
 
-Copyright 2012-2019 Charles Weld.
+Copyright 2012-2022 Charles Weld.
 
 Licensed under the [Apache License, Version 2.0][apache2] (the "License"); you
 may not use this software except in compliance with the License. You may obtain
@@ -74,4 +82,5 @@ Also thanks to the following projects\resources without which this project would
 
 [apache2]: http://www.apache.org/licenses/LICENSE-2.0
 [tesseract-ocr]: https://github.com/tesseract-ocr/tesseract
+[tesseract-tessdata]: https://github.com/tesseract-ocr/tessdata/
 [vs-runtime]: https://visualstudio.microsoft.com/downloads/

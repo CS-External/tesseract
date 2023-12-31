@@ -35,7 +35,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoTextFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\Text\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/Text/phototest");
             using (var renderer = ResultRenderer.CreateTextRenderer(resultPath)) {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -48,7 +48,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoPdfFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\PDF\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/PDF/phototest");
             using (var renderer = ResultRenderer.CreatePdfRenderer(resultPath, DataPath, false)) {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -67,7 +67,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoPdfFile1()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\PDF\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/PDF/phototest");
             using (var renderer = ResultRenderer.CreatePdfRenderer(resultPath, DataPath, false))
             {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
@@ -81,7 +81,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderMultiplePageDocumentToPdfFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\PDF\multi-page");
+            var resultPath = TestResultRunFile(@"ResultRenderers/PDF/multi-page");
             using (var renderer = ResultRenderer.CreatePdfRenderer(resultPath, DataPath, false)) {
                 var examplePixPath = TestFilePath("processing/multi-page.tif");
                 ProcessMultipageTiff(renderer, examplePixPath);
@@ -100,7 +100,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderMultiplePageDocumentToPdfFile1()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\PDF\multi-page");
+            var resultPath = TestResultRunFile(@"ResultRenderers/PDF/multi-page");
             using (var renderer = ResultRenderer.CreatePdfRenderer(resultPath, DataPath, false))
             {
                 var examplePixPath = TestFilePath("processing/multi-page.tif");
@@ -114,7 +114,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoHOcrFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\HOCR\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/HOCR/phototest");
             using (var renderer = ResultRenderer.CreateHOcrRenderer(resultPath)) {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -127,7 +127,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoUnlvFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\UNLV\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/UNLV/phototest");
             using (var renderer = ResultRenderer.CreateUnlvRenderer(resultPath)) {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -138,9 +138,66 @@ namespace Tesseract.Tests
         }
 
         [Test]
+        public void CanRenderResultsIntoAltoFile()
+        {
+            var resultPath = TestResultRunFile(@"ResultRenderers/Alto/phototest");
+            using (var renderer = ResultRenderer.CreateAltoRenderer(resultPath))
+            {
+                var examplePixPath = TestFilePath("Ocr/phototest.tif");
+                ProcessFile(renderer, examplePixPath);
+            }
+
+            var expectedOutputFilename = Path.ChangeExtension(resultPath, "xml");
+            Assert.That(File.Exists(expectedOutputFilename), $"Expected an xml file \"{expectedOutputFilename}\" to have been created; but none was found.");
+        }
+
+
+        [Test]
+        public void CanRenderResultsIntoTsvFile()
+        {
+            var resultPath = TestResultRunFile(@"ResultRenderers/Tsv/phototest");
+            using (var renderer = ResultRenderer.CreateTsvRenderer(resultPath))
+            {
+                var examplePixPath = TestFilePath("Ocr/phototest.tif");
+                ProcessFile(renderer, examplePixPath);
+            }
+
+            var expectedOutputFilename = Path.ChangeExtension(resultPath, "tsv");
+            Assert.That(File.Exists(expectedOutputFilename), $"Expected a Tsv file \"{expectedOutputFilename}\" to have been created; but none was found.");
+        }
+
+        [Test]
+        public void CanRenderResultsIntoLSTMBoxFile()
+        {
+            var resultPath = TestResultRunFile(@"ResultRenderers/LSTMBox/phototest");
+            using (var renderer = ResultRenderer.CreateLSTMBoxRenderer(resultPath))
+            {
+                var examplePixPath = TestFilePath("Ocr/phototest.tif");
+                ProcessFile(renderer, examplePixPath);
+            }
+
+            var expectedOutputFilename = Path.ChangeExtension(resultPath, "box");
+            Assert.That(File.Exists(expectedOutputFilename), $"Expected a box file \"{expectedOutputFilename}\" to have been created; but none was found.");
+        }
+
+        [Test]
+        public void CanRenderResultsIntoWordStrBoxFile()
+        {
+            var resultPath = TestResultRunFile(@"ResultRenderers/WordStrBox/phototest");
+            using (var renderer = ResultRenderer.CreateWordStrBoxRenderer(resultPath))
+            {
+                var examplePixPath = TestFilePath("Ocr/phototest.tif");
+                ProcessFile(renderer, examplePixPath);
+            }
+
+            var expectedOutputFilename = Path.ChangeExtension(resultPath, "box");
+            Assert.That(File.Exists(expectedOutputFilename), $"Expected a box file \"{expectedOutputFilename}\" to have been created; but none was found.");
+        }
+
+        [Test]
         public void CanRenderResultsIntoBoxFile()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\Box\phototest");
+            var resultPath = TestResultRunFile(@"ResultRenderers/Box/phototest");
             using (var renderer = ResultRenderer.CreateBoxRenderer(resultPath)) {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -153,9 +210,9 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderResultsIntoMultipleOutputFormats()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\PDF\phototest");
-            List<RenderedFormat> formats = new List<RenderedFormat> { RenderedFormat.HOCR, RenderedFormat.PDF, RenderedFormat.TEXT };
-            using (var renderer = ResultRenderer.CreateRenderers(resultPath, DataPath, formats))
+            var resultPath = TestResultRunFile(@"ResultRenderers/PDF/phototest");
+            List<RenderedFormat> formats = new List<RenderedFormat> { RenderedFormat.HOCR, RenderedFormat.PDF_TEXTONLY, RenderedFormat.TEXT };
+            using (var renderer = new AggregateResultRenderer(ResultRenderer.CreateRenderers(resultPath, DataPath, formats)))
             {
                 var examplePixPath = TestFilePath("Ocr/phototest.tif");
                 ProcessFile(renderer, examplePixPath);
@@ -172,7 +229,7 @@ namespace Tesseract.Tests
         [Test]
         public void CanRenderMultiplePageDocumentIntoMultipleResultRenderers()
         {
-            var resultPath = TestResultRunFile(@"ResultRenderers\Aggregate\multi-page");
+            var resultPath = TestResultRunFile(@"ResultRenderers/Aggregate/multi-page");
             using (var renderer = new AggregateResultRenderer(ResultRenderer.CreatePdfRenderer(resultPath, DataPath, false), ResultRenderer.CreateTextRenderer(resultPath))) {
                 var examplePixPath = TestFilePath("processing/multi-page.tif");
                 ProcessMultipageTiff(renderer, examplePixPath);

@@ -1,23 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>14.1.2</Version>
+    <TargetFrameworks>netstandard2.0;net47;net48</TargetFrameworks>
+      <Version>14.1.2</Version>
   </PropertyGroup>
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <!-- .NET 4.0 references, compilation flags and build options -->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
-    <DefineConstants>NET40;NETFULL;SYSTEM_DRAWING_SUPPORT</DefineConstants>
+  
+  <!-- .NET 4.7 references, compilation flags and build options -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net47'">
+	  <DefineConstants>NET47;NETFULL;SYSTEM_DRAWING_SUPPORT</DefineConstants>  
   </PropertyGroup>
-  <!-- .NET 4.5 references, compilation flags and build options -->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <DefineConstants>NET45;NETFULL;SYSTEM_DRAWING_SUPPORT</DefineConstants>
+
+  <!-- .NET 4.8 references, compilation flags and build options -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net48'">
+    <DefineConstants>NET48;NETFULL;SYSTEM_DRAWING_SUPPORT</DefineConstants>
   </PropertyGroup>
   <!-- .NET Standard 2.0 references, compilation flags and build options -->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+	  <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DocumentationFile>.\Tesseract.xml</DocumentationFile>
@@ -34,23 +36,28 @@
     <CSFile Include="*.cs" Exclude="obj\**\.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="x64\leptonica-1.80.0.dll" />
-    <None Remove="x64\tesseract41.dll" />
-    <None Remove="x86\leptonica-1.80.0.dll" />
-    <None Remove="x86\tesseract41.dll" />
+    <None Remove="x64\leptonica-1.82.0.dll" />
+    <None Remove="x64\tesseract50.dll" />
+    <None Remove="x86\leptonica-1.82.0.dll" />
+    <None Remove="x86\tesseract50.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="x64\leptonica-1.80.0.dll">
+    <Content Include="x64\leptonica-1.82.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="x64\tesseract41.dll">
+    <Content Include="x64\tesseract50.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="x86\leptonica-1.80.0.dll">
+    <Content Include="x86\leptonica-1.82.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="x86\tesseract41.dll">
+    <Content Include="x86\tesseract50.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="x64\tesseract.exe">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

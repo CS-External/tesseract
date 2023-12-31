@@ -20,7 +20,7 @@ namespace Tesseract.Tests
         {
             using (var engine = CreateEngine())
             {
-                Assert.That(engine.Version, Does.StartWith("4.1.1"));
+                Assert.That(engine.Version, Does.StartWith("5.0.0"));
             }
         }
 
@@ -28,18 +28,41 @@ namespace Tesseract.Tests
         public void CanParseMultipageTif()
         {
             using (var engine = CreateEngine()) {
+                // load all pages at once
                 using (var pixA = PixArray.LoadMultiPageTiffFromFile(TestFilePath("./processing/multi-page.tif"))) {
-                    int i = 1;
+                    int i = 0;
                     foreach (var pix in pixA) {
                         using (var page = engine.Process(pix)) {
                             var text = page.GetText().Trim();
 
-                            string expectedText = String.Format("Page {0}", i);
+                            string expectedText = String.Format("Page {0}", ++i);
                             Assert.That(text, Is.EqualTo(expectedText));
                         }
-                        i++;
                     }
                 }
+            }
+        }
+
+        [Test]
+        public void CanParseMultipageTifOneByOne()
+        {
+            using (var engine = CreateEngine())
+            {
+                int offset = 0;
+                int i = 0;
+                do
+                {
+                    // read pages one at a time
+                    using (var img = Pix.pixReadFromMultipageTiff(TestFilePath("./processing/multi-page.tif"), ref offset))
+                    {
+                        using (var page = engine.Process(img))
+                        {
+                            var text = page.GetText().Trim();
+                            string expectedText = String.Format("Page {0}", ++i);
+                            Assert.That(text, Is.EqualTo(expectedText));
+                        }
+                    }         
+                } while (offset != 0);
             }
         }
 
@@ -83,11 +106,11 @@ namespace Tesseract.Tests
             }
         }
 
-        [Test]
+        [Test, Ignore("See #594")]
         public void CanParseUznFile()
         {
             using (var engine = CreateEngine()) {
-                var inputFilename = TestFilePath(@"Ocr\uzn-test.png");
+                var inputFilename = TestFilePath(@"Ocr/uzn-test.png");
                 using (var img = Pix.LoadFromFile(inputFilename)) {
                     using (var page = engine.Process(img, inputFilename, PageSegMode.SingleLine)) {
                         var text = page.GetText();
@@ -106,7 +129,7 @@ namespace Tesseract.Tests
         public void CanProcessBitmap()
         {
             using (var engine = CreateEngine()) {
-                var testImgFilename = TestFilePath(@"Ocr\phototest.tif");
+                var testImgFilename = TestFilePath(@"Ocr/phototest.tif");
                 using (var img = new Bitmap(testImgFilename)) {
                     using (var page = engine.Process(img)) {
                         var text = page.GetText();
@@ -194,7 +217,7 @@ namespace Tesseract.Tests
         {
             string actualResult;
             using (var engine = CreateEngine()) {
-                using (var img = LoadTestPix("ocr/empty.png")) {
+                using (var img = LoadTestPix("Ocr/empty.png")) {
                     using (var page = engine.Process(img)) {
                         actualResult = PageSerializer.Serialize(page, false);
                     }
@@ -230,7 +253,7 @@ TestUtils.NormaliseNewLine(@"</word></line>
         [Test]
         public void CanProcessPixUsingResultIterator()
         {
-            const string ResultPath = @"EngineTests\CanProcessPixUsingResultIterator.txt";
+            const string ResultPath = @"EngineTests/CanProcessPixUsingResultIterator.txt";
             var actualResultPath = TestResultRunFile(ResultPath);
 
             using (var engine = CreateEngine()) {
@@ -408,7 +431,7 @@ TestUtils.NormaliseNewLine(@"</word></line>
         [Test]
         public void CanProcessPixUsingResultIteratorAndChoiceIterator()
         {
-            const string resultFilename = @"EngineTests\CanProcessPixUsingResultIteratorAndChoiceIterator.txt";
+            const string resultFilename = @"EngineTests/CanProcessPixUsingResultIteratorAndChoiceIterator.txt";
 
             using (var engine = CreateEngine())
             {
@@ -605,14 +628,14 @@ TestUtils.NormaliseNewLine(@"</word></line>
             }
         }
 
-        #endregion Variable set\get
+        #endregion Variable set/get
 
         #region Variable print
 
         [Test]
         public void CanPrintVariables()
         {
-            const string ResultFilename = @"EngineTests\CanPrintVariables.txt";
+            const string ResultFilename = @"EngineTests/CanPrintVariables.txt";
             using (var engine = CreateEngine()) {
                 var actualResultsFilename = TestResultRunFile(ResultFilename);
                 Assert.That(engine.TryPrintVariablesToFile(actualResultsFilename), Is.True);
